@@ -1,86 +1,228 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Docker security test and re-build</title>
-<link rel="stylesheet" href="css/style.css">
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>DevSecOps Dashboard - Docker Security & Monitoring</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header class="topbar">
-    <div class="brand"><div class="logo">PFE</div><div><h1>Docker Security Test and Re-Build</h1><div class="subtitle">by Firas Aouadni</div></div></div>
-    <nav class="nav">
-      <button class="tab-btn active" data-tab="home">Home</button>
-      <button class="tab-btn" data-tab="docker">Docker Scan</button>
-      <button class="tab-btn" data-tab="van">VAN</button>
-      <button class="tab-btn" data-tab="devsecops">Re-Build</button>
-      <button class="tab-btn" data-tab="alerts">Alerts</button>
-      <button class="tab-btn" data-tab="chat">Chat</button>
-    </nav>
-  </header>
-
-  <main class="container">
-    <section id="tab-home" class="tab page">
-      <h2>Overview & Summary</h2>
-      <div id="overviewArea">Loading...</div>
-      <button class="btn" id="refreshOverview">Refresh</button>
-    </section>
-
-    <section id="tab-docker" class="tab page hidden">
-      <h2>Docker Scan (Trivy & Grype)</h2>
-      <div class="row">
-        <input id="imageInput" placeholder="image e.g. nginx:latest" />
-        <button class="btn" id="scanImageBtn">Scan Image</button>
-        <button class="btn" id="refreshScanSummary">Refresh Summary</button>
-      </div>
-
-      <div class="split">
-        <div class="card">
-          <h3>Trivy Results</h3>
-          <label>Severity: <select id="trivySeverity"><option value="ALL">ALL</option><option>CRITICAL</option><option>HIGH</option><option>MEDIUM</option><option>LOW</option></select></label>
-          <table id="trivyTable" class="data-table"><thead><tr><th>Target</th><th>Pkg</th><th>Severity</th><th>CVE</th><th>Title</th></tr></thead><tbody></tbody></table>
+    <header class="topbar">
+        <div class="brand">
+            <div class="logo">🔒</div>
+            <div>
+                <h1>DevSecOps Security Dashboard</h1>
+                <div class="subtitle">Enterprise Docker Security Testing & Auto-Remediation</div>
+            </div>
         </div>
+        <nav class="nav">
+            <button class="tab-btn active" data-tab="home">📊 Dashboard</button>
+            <button class="tab-btn" data-tab="docker">🔍 Docker Scan</button>
+            <button class="tab-btn" data-tab="van">🖥️ Host Monitor</button>
+            <button class="tab-btn" data-tab="devsecops">🔄 Auto-Fix</button>
+            <button class="tab-btn" data-tab="alerts">🚨 Alerts</button>
+            <button class="tab-btn" data-tab="chat">💬 Assistant</button>
+        </nav>
+    </header>
 
-        <div class="card">
-          <h3>Grype Results</h3>
-          <label>Severity: <select id="grypeSeverity"><option value="ALL">ALL</option><option>CRITICAL</option><option>HIGH</option><option>MEDIUM</option><option>LOW</option></select></label>
-          <table id="grypeTable" class="data-table"><thead><tr><th>Pkg</th><th>Severity</th><th>CVE</th><th>Info</th></tr></thead><tbody></tbody></table>
-        </div>
-      </div>
-      <div id="scanStatus"></div>
-    </section>
+    <main class="container">
+        <!-- Home Dashboard -->
+        <section id="tab-home" class="tab page">
+            <h2 style="margin-bottom: 2rem;">📊 Security Dashboard Overview</h2>
+            <div id="overviewArea">
+                <div style="text-align: center; padding: 3rem;">
+                    <div class="loading" style="width: 40px; height: 40px; margin: 0 auto 1rem;"></div>
+                    <p>Loading dashboard...</p>
+                </div>
+            </div>
+        </section>
 
-    <section id="tab-van" class="tab page hidden">
-      <h2>VAN — Host Monitoring</h2>
-      <button class="btn" id="refreshVan">Refresh VAN</button>
-      <table id="vanTable" class="data-table"><thead><tr><th>Checker</th><th>Status</th><th>Details</th></tr></thead><tbody></tbody></table>
-    </section>
+        <!-- Docker Scan -->
+        <section id="tab-docker" class="tab page hidden">
+            <h2>🔍 Docker Image Security Scan</h2>
+            <div class="card">
+                <h3>🚀 Quick Scan</h3>
+                <div class="row">
+                    <input id="imageInput" placeholder="Enter Docker image (e.g., nginx:latest, node:18-alpine)" />
+                    <button class="btn" id="scanImageBtn">Start Scan</button>
+                    <button class="btn" id="refreshScanSummary" style="background: var(--secondary);">Refresh Results</button>
+                </div>
+                <div id="scanStatus" style="margin-top: 1rem; padding: 1rem; border-radius: 8px; background: var(--light);"></div>
+            </div>
 
-    <section id="tab-devsecops" class="tab page hidden">
-      <h2>Re-build — Auto-hardening</h2>
-      <div class="row">
-        <input id="devImageInput" placeholder="image e.g. nginx:latest" />
-        <button class="btn" id="devFixBtn">Request Auto-Fix</button>
-      </div>
-      <pre id="devResult">No actions yet.</pre>
-    </section>
+            <div class="split">
+                <div class="card">
+                    <h3>🛡️ Trivy Results</h3>
+                    <div class="row">
+                        <label>Filter by Severity: 
+                            <select id="trivySeverity">
+                                <option value="ALL">All Severities</option>
+                                <option value="CRITICAL">Critical</option>
+                                <option value="HIGH">High</option>
+                                <option value="MEDIUM">Medium</option>
+                                <option value="LOW">Low</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div style="max-height: 500px; overflow-y: auto;">
+                        <table id="trivyTable" class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Target</th>
+                                    <th>Package</th>
+                                    <th>Severity</th>
+                                    <th>CVE ID</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="5" style="text-align: center; color: var(--secondary);">
+                                        No scan results yet. Enter an image above to start scanning.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
-    <section id="tab-alerts" class="tab page hidden">
-      <h2>Alerts & Mitigation</h2>
-      <button class="btn" id="refreshAlerts">Refresh Alerts</button>
-      <table id="alertsTable" class="data-table"><thead><tr><th>ID</th><th>Source/Checker</th><th>Severity</th><th>Summary</th><th>Created</th><th>Status</th><th>Action</th></tr></thead><tbody></tbody></table>
-    </section>
+                <div class="card">
+                    <h3>🔎 Grype Results</h3>
+                    <div class="row">
+                        <label>Filter by Severity: 
+                            <select id="grypeSeverity">
+                                <option value="ALL">All Severities</option>
+                                <option value="CRITICAL">Critical</option>
+                                <option value="HIGH">High</option>
+                                <option value="MEDIUM">Medium</option>
+                                <option value="LOW">Low</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div style="max-height: 500px; overflow-y: auto;">
+                        <table id="grypeTable" class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Package</th>
+                                    <th>Severity</th>
+                                    <th>CVE ID</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="4" style="text-align: center; color: var(--secondary);">
+                                        No scan results yet. Enter an image above to start scanning.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <section id="tab-chat" class="tab page hidden">
-      <h2>Chat Assistant</h2>
-      <div id="chatBox" class="chat-box"></div>
-      <div class="chat-input">
-        <input id="chatInput" placeholder="Say hi or 'scan nginx:latest'"/>
-        <button class="btn" id="chatSend">Send</button>
-      </div>
-    </section>
-  </main>
+        <!-- VAN Monitoring -->
+        <section id="tab-van" class="tab page hidden">
+            <h2>🖥️ Host & Network Monitoring</h2>
+            <div class="card">
+                <h3>📈 System Health Status</h3>
+                <button class="btn" id="refreshVan">Refresh Status</button>
+            </div>
+            <div class="card">
+                <table id="vanTable" class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Check</th>
+                            <th>Status</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="3" style="text-align: center; color: var(--secondary);">
+                                Loading system status...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
 
-<script src="js/dashboard.js"></script>
+        <!-- DevSecOps Auto-Fix -->
+        <section id="tab-devsecops" class="tab page hidden">
+            <h2>🔄 Automated Security Hardening</h2>
+            <div class="card">
+                <h3>🔧 Auto-Remediation</h3>
+                <p style="margin-bottom: 1.5rem; color: var(--secondary);">
+                    Automatically harden Docker images by updating packages and applying security fixes.
+                </p>
+                <div class="row">
+                    <input id="devImageInput" placeholder="Enter Docker image to harden (e.g., nginx:latest)" />
+                    <button class="btn" id="devFixBtn">Start Auto-Fix</button>
+                </div>
+            </div>
+            <div class="card">
+                <h3>📋 Fix Progress & Results</h3>
+                <pre id="devResult" style="background: var(--light); padding: 1.5rem; border-radius: 12px; min-height: 200px; display: flex; align-items: center; justify-content: center; color: var(--secondary);">
+No auto-fix operations yet. Enter an image above to start.
+                </pre>
+            </div>
+        </section>
+
+        <!-- Alerts -->
+        <section id="tab-alerts" class="tab page hidden">
+            <h2>🚨 Security Alerts & Incidents</h2>
+            <div class="card">
+                <h3>📢 Active Alerts</h3>
+                <button class="btn" id="refreshAlerts">Refresh Alerts</button>
+            </div>
+            <div class="card">
+                <div style="max-height: 600px; overflow-y: auto;">
+                    <table id="alertsTable" class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Alert ID</th>
+                                <th>Source</th>
+                                <th>Severity</th>
+                                <th>Description</th>
+                                <th>Created</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="7" style="text-align: center; color: var(--secondary);">
+                                    Loading alerts...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chat Assistant -->
+        <section id="tab-chat" class="tab page hidden">
+            <h2>💬 DevSecOps Assistant</h2>
+            <div class="card">
+                <h3>🤖 Security Chat</h3>
+                <p style="margin-bottom: 1.5rem; color: var(--secondary);">
+                    Ask me to scan images, check system status, or get security recommendations.
+                </p>
+                <div id="chatBox" class="chat-box">
+                    <!-- Chat messages will appear here -->
+                </div>
+                <div class="chat-input">
+                    <input id="chatInput" placeholder="Type your message (e.g., 'scan nginx:latest')"/>
+                    <button class="btn" id="chatSend">Send</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/dashboard.js"></script>
 </body>
 </html>

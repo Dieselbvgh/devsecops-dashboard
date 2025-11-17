@@ -1,8 +1,8 @@
 {
   "apt_update": {
-    "ok": false,
+    "ok": true,
     "path": "/var/lib/apt/periodic/update-success-stamp",
-    "age_seconds": 615736
+    "age_seconds": 1471
   },
   "host_os": {
     "platform": "linux",
@@ -13,14 +13,14 @@
   },
   "ddos": {
     "ok": true,
-    "total_connections": 7,
+    "total_connections": 3,
     "threshold": 150
   },
   "cpu": {
     "ok": true,
-    "load1": 1.18,
+    "load1": 0.1,
     "cores": 2,
-    "cpu_percent_approx": 59,
+    "cpu_percent_approx": 5,
     "threshold": 80
   },
   "disk": {
@@ -31,5 +31,5 @@
     "ok": true,
     "stdout": "Status: active\n"
   },
-  "timestamp": "2025-11-17T09:02:21.641Z"
+  "timestamp": "2025-11-17T09:30:19.539Z"
 }
