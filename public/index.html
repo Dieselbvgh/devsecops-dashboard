@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Docker security test and re-build</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><div class="logo">PFE</div><div><h1>Docker Security Test and Re-Build</h1><div class="subtitle">by Firas Aouadni</div></div></div>
+    <nav class="nav">
+      <button class="tab-btn active" data-tab="home">Home</button>
+      <button class="tab-btn" data-tab="docker">Docker Scan</button>
+      <button class="tab-btn" data-tab="van">VAN</button>
+      <button class="tab-btn" data-tab="devsecops">Re-Build</button>
+      <button class="tab-btn" data-tab="alerts">Alerts</button>
+      <button class="tab-btn" data-tab="chat">Chat</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section id="tab-home" class="tab page">
+      <h2>Overview & Summary</h2>
+      <div id="overviewArea">Loading...</div>
+      <button class="btn" id="refreshOverview">Refresh</button>
+    </section>
+
+    <section id="tab-docker" class="tab page hidden">
+      <h2>Docker Scan (Trivy & Grype)</h2>
+      <div class="row">
+        <input id="imageInput" placeholder="image e.g. nginx:latest" />
+        <button class="btn" id="scanImageBtn">Scan Image</button>
+        <button class="btn" id="refreshScanSummary">Refresh Summary</button>
+      </div>
+
+      <div class="split">
+        <div class="card">
+          <h3>Trivy Results</h3>
+          <label>Severity: <select id="trivySeverity"><option value="ALL">ALL</option><option>CRITICAL</option><option>HIGH</option><option>MEDIUM</option><option>LOW</option></select></label>
+          <table id="trivyTable" class="data-table"><thead><tr><th>Target</th><th>Pkg</th><th>Severity</th><th>CVE</th><th>Title</th></tr></thead><tbody></tbody></table>
+        </div>
+
+        <div class="card">
+          <h3>Grype Results</h3>
+          <label>Severity: <select id="grypeSeverity"><option value="ALL">ALL</option><option>CRITICAL</option><option>HIGH</option><option>MEDIUM</option><option>LOW</option></select></label>
+          <table id="grypeTable" class="data-table"><thead><tr><th>Pkg</th><th>Severity</th><th>CVE</th><th>Info</th></tr></thead><tbody></tbody></table>
+        </div>
+      </div>
+      <div id="scanStatus"></div>
+    </section>
+
+    <section id="tab-van" class="tab page hidden">
+      <h2>VAN — Host Monitoring</h2>
+      <button class="btn" id="refreshVan">Refresh VAN</button>
+      <table id="vanTable" class="data-table"><thead><tr><th>Checker</th><th>Status</th><th>Details</th></tr></thead><tbody></tbody></table>
+    </section>
+
+    <section id="tab-devsecops" class="tab page hidden">
+      <h2>Re-build — Auto-hardening</h2>
+      <div class="row">
+        <input id="devImageInput" placeholder="image e.g. nginx:latest" />
+        <button class="btn" id="devFixBtn">Request Auto-Fix</button>
+      </div>
+      <pre id="devResult">No actions yet.</pre>
+    </section>
+
+    <section id="tab-alerts" class="tab page hidden">
+      <h2>Alerts & Mitigation</h2>
+      <button class="btn" id="refreshAlerts">Refresh Alerts</button>
+      <table id="alertsTable" class="data-table"><thead><tr><th>ID</th><th>Source/Checker</th><th>Severity</th><th>Summary</th><th>Created</th><th>Status</th><th>Action</th></tr></thead><tbody></tbody></table>
+    </section>
+
+    <section id="tab-chat" class="tab page hidden">
+      <h2>Chat Assistant</h2>
+      <div id="chatBox" class="chat-box"></div>
+      <div class="chat-input">
+        <input id="chatInput" placeholder="Say hi or 'scan nginx:latest'"/>
+        <button class="btn" id="chatSend">Send</button>
+      </div>
+    </section>
+  </main>
+
+<script src="js/dashboard.js"></script>
+</body>
+</html>

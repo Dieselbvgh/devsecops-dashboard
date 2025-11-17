@@ -1,0 +1,35 @@
+{
+  "apt_update": {
+    "ok": false,
+    "path": "/var/lib/apt/periodic/update-success-stamp",
+    "age_seconds": 615736
+  },
+  "host_os": {
+    "platform": "linux",
+    "release": "5.15.0-139-generic",
+    "arch": "x64",
+    "cpus": 2,
+    "hostname": "ubuntu2004"
+  },
+  "ddos": {
+    "ok": true,
+    "total_connections": 7,
+    "threshold": 150
+  },
+  "cpu": {
+    "ok": true,
+    "load1": 1.18,
+    "cores": 2,
+    "cpu_percent_approx": 59,
+    "threshold": 80
+  },
+  "disk": {
+    "ok": true,
+    "percent": 8
+  },
+  "firewall": {
+    "ok": true,
+    "stdout": "Status: active\n"
+  },
+  "timestamp": "2025-11-17T09:02:21.641Z"
+}

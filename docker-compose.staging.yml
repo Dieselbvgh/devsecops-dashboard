@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  devsecops-dashboard:
+    image: devsecops-dashboard:latest
+    container_name: devsecops-dashboard-staging
+    ports:
+      - "5002:5001"
+    environment:
+      - NODE_ENV=staging
+      - PORT=5001
+      - ENABLE_REAL_FIX=false
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard-staging.rule=Host(`staging.dashboard.example.com`)"
+
+  # Monitoring stack for staging
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin

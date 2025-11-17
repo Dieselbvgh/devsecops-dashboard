@@ -1,0 +1,12 @@
+[2025-11-17T08:57:23.002Z] Server started on port 5001 (ENABLE_REAL_FIX=false)
+[2025-11-17T08:58:12.227Z] Server started on port 5001 (ENABLE_REAL_FIX=false)
+[2025-11-17T08:58:41.768Z] Server started on port 5001 (ENABLE_REAL_FIX=false)
+[2025-11-17T09:01:37.149Z] Start scan for ubuntu
+[2025-11-17T09:02:20.955Z] Server started on port 5001 (ENABLE_REAL_FIX=false)
+[2025-11-17T09:02:21.793Z] Server started on port 5001 (ENABLE_REAL_FIX=false)
+[2025-11-17T09:02:29.513Z] Start scan for ubuntu
+[2025-11-17T09:02:36.998Z] Start scan for ubuntu.latest
+[2025-11-17T09:02:42.209Z] trivy err: 2025-11-17T04:02:42-05:00	FATAL	Fatal error	run error: image scan error: scan error: unable to initialize a scan service: unable to initialize artifact: unable to initialize container image: unable to find the specified image "ubuntu.latest" in ["docker" "containerd" "podman" "remote"]: 4 errors occurred:
+	* docker error: unable to inspect the image (ubuntu.latest): Error response from daemon: No 
+[2025-11-17T09:03:02.603Z] Start scan for ubuntu:latest
+[2025-11-17T09:06:49.627Z] Server started on port 5001 (ENABLE_REAL_FIX=false)

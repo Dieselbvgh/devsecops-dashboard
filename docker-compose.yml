@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  devsecops-dashboard:
+    build: .
+    ports:
+      - "5001:5001"
+    environment:
+      - NODE_ENV=production
+      - PORT=5001
+      - ENABLE_REAL_FIX=false
+      - DDOS_THRESHOLD_TOTAL=150
+      - CPU_THRESHOLD_PERCENT=80
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./data:/app/data
+      - ./logs:/app/logs
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+
+  trivy-scanner:
+    image: aquasec/trivy:latest
+    restart: unless-stopped
+    volumes:
+      - ./data/trivy-reports:/tmp/trivy-reports
+
+  grype-scanner:
+    image: anchore/grype:latest
+    restart: unless-stopped
+    volumes:
+      - ./data/grype-reports:/tmp/grype-reports

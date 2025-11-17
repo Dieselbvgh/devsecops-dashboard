@@ -1,0 +1,6 @@
+{
+  "image": "ubuntu:latest",
+  "trivy_ok": true,
+  "grype_ok": true,
+  "scanned_at": "2025-11-17T09:06:49.361Z"
+}
